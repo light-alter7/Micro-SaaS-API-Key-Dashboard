@@ -73,6 +73,18 @@ jobs:
         with:
           name: api-key-dashboard-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error      # 11. Build Debug APK
+      # IMPORTANT: Gradle must run inside the android directory
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      # 12. Upload APK to GitHub Actions
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-key-dashboard-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error      - name: Build web app
         run: "pnpm run build"
 
